@@ -50,24 +50,11 @@ export const createCategory = async (req, res) => {
 // Get a category by ID and list its items
 export const getCategoryById = async (req, res) => {
     const { id } = req.params;
+    
     try {
-        // Validate that id is a number
-        if (isNaN(id)) {
-            return res.status(400).render('error', {
-                title: 'Invalid Request',
-                message: 'Invalid category ID provided'
-            });
-        }
-
-        // Get category and its items
-        const categoryResult = await pool.query(`
-            SELECT c.*, COUNT(i.id) as item_count 
-            FROM categories c 
-            LEFT JOIN items i ON c.id = i.category_id 
-            WHERE c.id = $1 
-            GROUP BY c.id
-        `, [id]);
-
+        // Get category details
+        const categoryResult = await pool.query('SELECT * FROM categories WHERE id = $1', [id]);
+        
         if (categoryResult.rows.length === 0) {
             return res.status(404).render('error', {
                 title: 'Not Found',
@@ -82,7 +69,7 @@ export const getCategoryById = async (req, res) => {
             ORDER BY name ASC
         `, [id]);
 
-        res.render("category", {
+        res.render('category', {
             title: categoryResult.rows[0].name,
             category: categoryResult.rows[0],
             items: itemsResult.rows
