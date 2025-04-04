@@ -1,13 +1,56 @@
-<h1>Add New Item</h1>
-<form method="POST" action="/items/new/<%= categoryId %>">
-  <label for="name">Item Name:</label>
-  <input type="text" id="name" name="name" required>
-  <label for="description">Description:</label>
-  <textarea id="description" name="description"></textarea>
-  <label for="price">Price:</label>
-  <input type="number" step="0.01" id="price" name="price" required>
-  <label for="quantity">Quantity:</label>
-  <input type="number" id="quantity" name="quantity" required>
-  <button type="submit" class="btn">Create</button>
-</form>
-<a href="/categories/<%= categoryId %>" class="btn">Cancel</a>
+<div class="container">
+    <div class="card max-w-2xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-900 mb-6">Add New Item</h1>
+        <form method="POST" action="/items/new">
+            <div class="form-group">
+                <label for="name">Item Name</label>
+                <input type="text" id="name" name="name" required class="form-input" 
+                    placeholder="Enter item name">
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="3" class="form-input"
+                    placeholder="Enter item description"></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-3 text-gray-500">$</span>
+                        <input type="number" id="price" name="price" step="0.01" required 
+                            class="form-input pl-7" placeholder="0.00">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="quantity">Initial Quantity</label>
+                    <input type="number" id="quantity" name="quantity" required 
+                        class="form-input" placeholder="0">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" name="categoryId" required class="form-input">
+                    <option value="">Select a category</option>
+                    <% categories.forEach(category => { %>
+                        <option value="<%= category.id %>" <%= categoryId && category.id.toString() === categoryId.toString() ? 'selected' : '' %>>
+                            <%= category.name %>
+                        </option>
+                    <% }); %>
+                </select>
+            </div>
+
+            <div class="flex gap-4 mt-6">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save Item
+                </button>
+                <a href="/items" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

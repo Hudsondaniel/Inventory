@@ -1,9 +1,27 @@
-<h1>Add New Category</h1>
-<form method="POST" action="/categories">
-  <label for="name">Category Name:</label>
-  <input type="text" id="name" name="name" required>
-  <label for="description">Description:</label>
-  <textarea id="description" name="description"></textarea>
-  <button type="submit" class="btn">Create</button>
-</form>
-<a href="/" class="btn">Cancel</a>
+<div class="container">
+    <div class="card max-w-2xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-900 mb-6">Add New Category</h1>
+        <form method="POST" action="/categories/new">
+            <div class="form-group">
+                <label for="name">Category Name</label>
+                <input type="text" id="name" name="name" required class="form-input" 
+                    placeholder="Enter category name">
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="3" class="form-input"
+                    placeholder="Enter category description"></textarea>
+            </div>
+
+            <div class="flex gap-4 mt-6">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save Category
+                </button>
+                <a href="/categories" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

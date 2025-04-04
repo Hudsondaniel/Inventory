@@ -24,9 +24,8 @@ export const getCategories = async (req, res) => {
 };
 
 export const createCategoryForm = async (req, res) => {
-    res.render("category", { 
-        title: "New Category",
-        category: null
+    res.render("new-category", { 
+        title: "New Category"
     });
 };
 

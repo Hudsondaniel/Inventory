@@ -1,34 +1,92 @@
-<% include('partials/header') %>
-<div class="text-center mb-4">
-    <h1 class="text-3xl font-bold text-gray-900">Welcome to Inventory System</h1>
-    <p class="text-gray-600 mt-2">Manage your inventory with ease</p>
-</div>
+<%- include('partials/header') %>
+<div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <!-- Quick Stats -->
+        <div class="card bg-blue-50">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-blue-500 text-white mr-4">
+                    <i class="fas fa-box text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900">Total Items</h3>
+                    <p class="text-3xl font-bold text-blue-600"><%= stats.totalItems %></p>
+                </div>
+            </div>
+        </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <div class="card">
-        <h2 class="text-xl font-semibold mb-4">Items</h2>
-        <p class="text-gray-600 mb-4">Manage your inventory items, track stock levels, and update product information.</p>
-        <div class="flex gap-4">
-            <a href="/items" class="btn btn-primary">
-                <i class="fas fa-list"></i> View Items
-            </a>
-            <a href="/items/new" class="btn btn-secondary">
-                <i class="fas fa-plus"></i> Add Item
-            </a>
+        <div class="card bg-green-50">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-green-500 text-white mr-4">
+                    <i class="fas fa-tags text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900">Categories</h3>
+                    <p class="text-3xl font-bold text-green-600"><%= stats.totalCategories %></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-purple-50">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-purple-500 text-white mr-4">
+                    <i class="fas fa-dollar-sign text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900">Total Value</h3>
+                    <p class="text-3xl font-bold text-purple-600">$<%= stats.totalValue %></p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="card">
-        <h2 class="text-xl font-semibold mb-4">Categories</h2>
-        <p class="text-gray-600 mb-4">Organize your inventory with categories and subcategories.</p>
-        <div class="flex gap-4">
-            <a href="/categories" class="btn btn-primary">
-                <i class="fas fa-tags"></i> View Categories
-            </a>
-            <a href="/categories/new" class="btn btn-secondary">
-                <i class="fas fa-plus"></i> Add Category
-            </a>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Quick Actions -->
+        <div class="card">
+            <h2 class="text-xl font-semibold mb-4">Quick Actions</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <a href="/items/new" class="btn btn-primary">
+                    <i class="fas fa-plus-circle mr-2"></i>
+                    Add New Item
+                </a>
+                <a href="/categories/new" class="btn btn-secondary">
+                    <i class="fas fa-folder-plus mr-2"></i>
+                    Add New Category
+                </a>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="card">
+            <h2 class="text-xl font-semibold mb-4">Recent Items</h2>
+            <div class="space-y-4">
+                <% if (stats.recentItems && stats.recentItems.length > 0) { %>
+                    <div class="divide-y divide-gray-200">
+                        <% stats.recentItems.forEach(item => { %>
+                            <div class="py-3">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-medium text-gray-900"><%= item.name %></h4>
+                                        <p class="text-sm text-gray-600">
+                                            <% if (item.category_name) { %>
+                                                <span class="text-gray-500"><%= item.category_name %></span> •
+                                            <% } %>
+                                            <%= item.quantity %> in stock
+                                        </p>
+                                    </div>
+                                    <span class="text-green-600 font-medium">$<%= parseFloat(item.price).toFixed(2) %></span>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } else { %>
+                    <p class="text-gray-600 text-center py-4">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        No items added yet
+                    </p>
+                <% } %>
+            </div>
         </div>
     </div>
 </div>
-<% include('partials/footer') %>
+<%- include('partials/footer') %>
+

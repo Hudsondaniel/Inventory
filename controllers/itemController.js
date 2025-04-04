@@ -4,26 +4,27 @@ import pool from "../db.js";
 // Get all items with their categories
 export const getAllItems = async (req, res) => {
     try {
-        const result = await pool.query(`
+        // Get all items with their category names
+        const itemsResult = await pool.query(`
             SELECT i.*, c.name as category_name 
             FROM items i 
             LEFT JOIN categories c ON i.category_id = c.id 
             ORDER BY i.name ASC
         `);
         
-        // Get all categories for the new item form
-        const categories = await pool.query('SELECT * FROM categories ORDER BY name ASC');
+        // Get all categories for the filter dropdown
+        const categoriesResult = await pool.query('SELECT * FROM categories ORDER BY name ASC');
         
         res.render("items", { 
-            title: "All Items",
-            items: result.rows,
-            categories: categories.rows
+            title: "All Items", 
+            items: itemsResult.rows,
+            categories: categoriesResult.rows
         });
     } catch (err) {
         console.error('Error fetching items:', err);
-        res.status(500).render('error', { 
+        res.status(500).render('error', {
             title: 'Error',
-            message: 'Unable to fetch items. Please try again later.' 
+            message: 'Unable to fetch items. Please try again later.'
         });
     }
 };
@@ -32,46 +33,43 @@ export const getAllItems = async (req, res) => {
 export const getItemById = async (req, res) => {
     const { id } = req.params;
     try {
-        // Get item with its category
         const result = await pool.query(`
             SELECT i.*, c.name as category_name 
             FROM items i 
             LEFT JOIN categories c ON i.category_id = c.id 
-            WHERE i.id=$1
+            WHERE i.id = $1
         `, [id]);
         
         if (result.rows.length === 0) {
-            return res.status(404).render('error', { 
+            return res.status(404).render('error', {
                 title: 'Not Found',
-                message: 'Item not found' 
+                message: 'Item not found'
             });
         }
-
-        // Get all categories for the dropdown
-        const categoriesResult = await pool.query('SELECT * FROM categories ORDER BY name ASC');
         
-        res.render("item", { 
-            title: result.rows[0].name, 
-            item: result.rows[0],
-            categories: categoriesResult.rows // Pass categories to the view
+        res.render("item", {
+            title: result.rows[0].name,
+            item: result.rows[0]
         });
     } catch (err) {
         console.error('Error fetching item:', err);
-        res.status(500).render('error', { 
+        res.status(500).render('error', {
             title: 'Error',
-            message: 'Unable to fetch item details. Please try again later.' 
+            message: 'Unable to fetch item details. Please try again later.'
         });
     }
 };
 
 // Show form to create a new item in a category
 export const createItemForm = async (req, res) => {
-    const { categoryId } = req.params;
     try {
+        // Get the categoryId from query parameter
+        const { categoryId } = req.query;
         const categories = await pool.query('SELECT * FROM categories ORDER BY name ASC');
+        
         res.render("new-item", { 
             title: "New Item", 
-            categoryId,
+            categoryId: categoryId || '',
             categories: categories.rows
         });
     } catch (err) {
@@ -85,14 +83,20 @@ export const createItemForm = async (req, res) => {
 
 // Create a new item
 export const createItem = async (req, res) => {
-    const { categoryId } = req.params;
-    const { name, description, price, quantity } = req.body;
+    const { name, description, price, quantity, categoryId } = req.body;
+    
     try {
-        await pool.query(
-            "INSERT INTO items (name, description, price, quantity, category_id) VALUES ($1, $2, $3, $4, $5)",
+        const result = await pool.query(
+            "INSERT INTO items (name, description, price, quantity, category_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
             [name, description, price, quantity, categoryId]
         );
-        res.redirect(`/categories/${categoryId}`);
+        
+        // Redirect back to the category page if we have a category ID
+        if (categoryId) {
+            res.redirect(`/categories/${categoryId}`);
+        } else {
+            res.redirect('/items');
+        }
     } catch (err) {
         console.error('Error creating item:', err);
         res.status(500).render('error', { 

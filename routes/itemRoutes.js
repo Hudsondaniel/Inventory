@@ -15,11 +15,11 @@ const router = express.Router();
 // List all items
 router.get("/", getAllItems);
 
-// Show form to create a new item (for a specific category)
-router.get("/new/:categoryId", createItemForm);
+// Show form to create a new item
+router.get("/new", createItemForm);
 
 // Create a new item
-router.post("/new/:categoryId", createItem);
+router.post("/new", createItem);
 
 // View a single item
 router.get("/:id", getItemById);
