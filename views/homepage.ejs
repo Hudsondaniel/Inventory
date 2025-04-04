@@ -1,13 +1,34 @@
 <% include('partials/header') %>
-<h1>Categories</h1>
-<ul>
-  <% categories.forEach(category => { %>
-    <li>
-      <a href="/categories/<%= category.id %>">
-        <%= category.name %>
-      </a>
-    </li>
-  <% }); %>
-</ul>
-<a href="/categories/new" class="btn">Add New Category</a>
+<div class="text-center mb-4">
+    <h1 class="text-3xl font-bold text-gray-900">Welcome to Inventory System</h1>
+    <p class="text-gray-600 mt-2">Manage your inventory with ease</p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="card">
+        <h2 class="text-xl font-semibold mb-4">Items</h2>
+        <p class="text-gray-600 mb-4">Manage your inventory items, track stock levels, and update product information.</p>
+        <div class="flex gap-4">
+            <a href="/items" class="btn btn-primary">
+                <i class="fas fa-list"></i> View Items
+            </a>
+            <a href="/items/new" class="btn btn-secondary">
+                <i class="fas fa-plus"></i> Add Item
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2 class="text-xl font-semibold mb-4">Categories</h2>
+        <p class="text-gray-600 mb-4">Organize your inventory with categories and subcategories.</p>
+        <div class="flex gap-4">
+            <a href="/categories" class="btn btn-primary">
+                <i class="fas fa-tags"></i> View Categories
+            </a>
+            <a href="/categories/new" class="btn btn-secondary">
+                <i class="fas fa-plus"></i> Add Category
+            </a>
+        </div>
+    </div>
+</div>
 <% include('partials/footer') %>

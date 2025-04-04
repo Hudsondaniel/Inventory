@@ -11,26 +11,25 @@ import {
 
 const router = express.Router();
 
-
 // Home page: list all categories
 router.get("/", getCategories);
 
 // New category form
-router.get("/categories/new", createCategoryForm);
+router.get("/new", createCategoryForm);
 
 // Create a new category
-router.post("/categories", createCategory);
+router.post("/new", createCategory);
 
 // View a single category and its items
-router.get("/categories/:id", getCategoryById);
+router.get("/:id", getCategoryById);
 
 // Edit category form
-router.get("/categories/:id/edit", editCategoryForm);
+router.get("/:id/edit", editCategoryForm);
 
 // Update a category
-router.post("/categories/:id", updateCategory);
+router.post("/:id", updateCategory);
 
-// Delete a category (you might add admin password check here)
-router.post("/categories/:id/delete", deleteCategory);
+// Delete a category
+router.post("/:id/delete", deleteCategory);
 
 export default router;
