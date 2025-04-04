@@ -1,0 +1,13 @@
+<h1>Edit Item</h1>
+<form method="POST" action="/items/<%= item.id %>">
+  <label for="name">Item Name:</label>
+  <input type="text" id="name" name="name" value="<%= item.name %>" required>
+  <label for="description">Description:</label>
+  <textarea id="description" name="description"><%= item.description %></textarea>
+  <label for="price">Price:</label>
+  <input type="number" step="0.01" id="price" name="price" value="<%= item.price %>" required>
+  <label for="quantity">Quantity:</label>
+  <input type="number" id="quantity" name="quantity" value="<%= item.quantity %>" required>
+  <button type="submit" class="btn">Update</button>
+</form>
+<a href="/categories/<%= item.category_id %>" class="btn">Cancel</a>

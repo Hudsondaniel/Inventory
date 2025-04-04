@@ -15,8 +15,8 @@ export const getItemById = async (req, res) => {
 
 // Show form to create a new item in a category
 export const createItemForm = async (req, res) => {
-  const { categoryId } = req.params;
-  res.render("new-item", { title: "New Item", categoryId });
+  const { categoryId } = req.params; // Extract categoryId from the route parameters
+  res.render("new-item", { title: "New Item", categoryId }); // Pass categoryId to the view
 };
 
 // Create a new item

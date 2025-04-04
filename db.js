@@ -13,19 +13,5 @@ const pool = new Pool({
     port: config.DB_PORT
 });
 
-// Function to test the connection
-async function testConnection() {
-    try {
-        const res = await pool.query('SELECT NOW()'); // Simple query to get the current time
-        console.log('Database connected successfully:', res.rows[0]);
-    } catch (err) {
-        console.error('Error connecting to the database:', err.message);
-    } finally {
-        await pool.end(); // Close the connection pool
-    }
-}
-
-// Call the test function
-testConnection();
-
+// Export pool for use in other modules
 export default pool;
