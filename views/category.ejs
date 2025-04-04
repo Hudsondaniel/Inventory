@@ -1,0 +1,12 @@
+<h1><%= category.name %></h1>
+<p><%= category.description %></p>
+<h2>Items</h2>
+<ul>
+  <% items.forEach(item => { %>
+    <li>
+      <a href="/items/<%= item.id %>"><%= item.name %></a>
+    </li>
+  <% }); %>
+</ul>
+<a href="/items/new/<%= category.id %>" class="btn">Add New Item</a>
+<a href="/" class="btn">Back to Categories</a>
