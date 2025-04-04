@@ -1,4 +1,4 @@
-import pool from "../db";
+import pool from "../db.js"; // Updated to include the `.js` extension
 
     export const getCategories = async (req, res) => {
         try {
